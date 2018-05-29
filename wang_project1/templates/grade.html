@@ -38,7 +38,7 @@
             <td>{{ page.id }}</td>
             <td>{{ page.g_name|capfirst }}</td>
             <td>{{ page.g_create_time }}</td>
-            <td><a href="{% url %}">编辑</a></td>
+            <td><a href="{% url  'app:edit_grade' %}?g_id={{ page.id }}">编辑</a></td>
         </tr>
     {% endfor %}
 {#<tr>#}
