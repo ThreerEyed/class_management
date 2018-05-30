@@ -21,7 +21,7 @@ class Student(models.Model):
     stu_tel = models.CharField(max_length=11, null=True)
     stu_birth = models.DateField(null=True)
     stu_delete = models.BooleanField(default=0)
-    stu_sex = models.BooleanField(default=0, null=True)
+    stu_sex = models.BooleanField(default=0)
 
     class Meta:
         db_table = 'student'
