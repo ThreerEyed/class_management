@@ -1,10 +1,13 @@
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
+from django.db.models import F, Q
+from django.http import HttpResponse
 from django.shortcuts import render, HttpResponseRedirect, redirect
 
 from django.core.urlresolvers import reverse
 
 from app.models import Grade, Student
+from utils.functions import is_login
 from wang_project1.settings import PAGE_NUMBERS
 
 
@@ -14,21 +17,21 @@ from wang_project1.settings import PAGE_NUMBERS
 #
 #         return render(request, 'index.html')
 
-
+# @is_login
 def head(request):
 
     if request.method == 'GET':
 
         return render(request, 'head.html')
 
-
+# @is_login
 def left(request):
 
     if request.method == 'GET':
 
         return render(request, 'left.html')
 
-
+# @is_login
 def grade(request):
 
     if request.method == 'GET':
@@ -40,6 +43,7 @@ def grade(request):
 
 
 # 编辑班级信息
+# @is_login
 def edit_grade(request):
 
     # 判断请求 是GET 就返回页面
@@ -58,7 +62,7 @@ def edit_grade(request):
         Grade.objects.filter(id=g_id).update(g_name=g_name)
     return redirect('app:grade')
 
-
+# @is_login
 def addgrade(request):
 
     if request.method == 'GET':
@@ -76,21 +80,21 @@ def addgrade(request):
         # reverse 这个参数 可以使用命名空间的名字
         return HttpResponseRedirect(reverse('app:grade'))
 
-
+# @is_login
 def changepwd(request):
 
     if request.method == 'GET':
 
         return render(request, 'changepwd.html')
 
-
+# @is_login
 def main(request):
 
     if request.method == 'GET':
 
         return render(request, 'main.html')
 
-
+# @is_login
 def addstu(request):
 
     if request.method == 'GET':
@@ -102,7 +106,8 @@ def addstu(request):
 
         s_name = request.POST.get('s_name')
         g_id = request.POST.get('g_id')
-
+        stu_birth = request.POST.get('s_birth')
+        stu_sex = request.POST.get('stu_sex')
         s_img = request.FILES.get('s_img')
 
         grade = Grade.objects.filter(id=g_id).first()
@@ -110,12 +115,13 @@ def addstu(request):
 
         # 创建学生信息
         # Student.objects.create(s_name=s_name, g_id=grade.id)
-        Student.objects.create(s_name=s_name, g=grade, s_img=s_img)
+        Student.objects.create(s_name=s_name, g=grade, s_img=s_img, stu_sex=stu_sex, stu_birth=stu_birth)
 
         return HttpResponseRedirect(reverse('app:student'))
 
 
 # 学生信息展示
+# @is_login
 def student(request):
 
     if request.method == 'GET':
@@ -128,12 +134,13 @@ def student(request):
 
 
 # 删除学生信息
+# @is_login
 def del_student(request):
     s_id = request.GET.get('s_id')
     Student.objects.filter(id=s_id).delete()
     return redirect('app:student')
 
-
+# @is_login
 def head2(request):
 
     if request.method == 'GET':
@@ -146,10 +153,36 @@ def head2(request):
 """
 
 
+# @is_login
 def index(request):
 
     if request.method == 'GET':
 
         return render(request, 'index.html')
 
+
+def selectstu(request):
+
+    # 查询web前端 1801班下语文成绩超过数学成绩10分的学生
+    # grade = Grade.objects.filter(g_name='web前端 1801').first()
+    # students = grade.student_set.all()
+    # stus = students.filter(s_chinese__gte=F('s_math') + 10)
+
+    # for i in stus:
+    #     b = i.s_name
+    #     b += ','
+    #     a.append(b)
+
+    # 查询web前端 1801班语文成绩和数学成绩平均成绩大于80的学生
+    grade1 = Grade.objects.filter(id=1).first()
+    students2 = grade1.student_set.all()
+    stus2 = students2.filter(Q(s_chinese__gte=80) & Q(s_math__gte=80))
+    a = []
+
+    for i in stus2:
+        d = i.s_name
+        d += ' ,'
+        a.append(d)
+
+    return HttpResponse(a)
 

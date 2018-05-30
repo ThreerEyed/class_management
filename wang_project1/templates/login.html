@@ -1,15 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>登录</title>
+
+{% extends 'base.html' %}
+{% block title %}
+    登录
+{% endblock %}
+{% block extCSS %}
 <link rel="stylesheet" type="text/css" href="/static/css/public.css" />
 <link rel="stylesheet" type="text/css" href="/static/css/page.css" />
+{% endblock %}
+{% block extJS %}
 <script type="text/javascript" src="/static/js/jquery.min.js"></script>
 <script type="text/javascript" src="/static/js/public.js"></script>
-</head>
-<body>
+{% endblock %}
 
+
+{% block indexbody %}
 <form action="" method="post">
     {% csrf_token %}
 	<!-- 登录body -->
@@ -26,7 +30,7 @@
 					placeholder="输入用户名" name="username" />
 			</div>
 			<div class="lgD">
-				<img class="img1" src="/static/img/logPwd.png" /><input type="text"
+				<img class="img1" src="/static/img/logPwd.png" /><input type="password"
 					placeholder="输入用户密码" name="password" />
 			</div>
 			<div class="logC">
@@ -46,6 +50,4 @@
 		<p class="p2">123456789</p>
 	</div>
 	<!-- 登录页面底部end -->
-   
-</body>
-</html>
+{% endblock %}

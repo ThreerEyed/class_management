@@ -1,6 +1,7 @@
 import random
 
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.shortcuts import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib import auth
@@ -9,7 +10,7 @@ from django.contrib import auth
 # 注册信息
 from django.core.urlresolvers import reverse
 
-from user.models import Users
+from user.models import Users, Role, Permission
 
 
 def djregister(request):
@@ -88,6 +89,7 @@ def register(request):
             msg = '信息不能为空'
             return render(request, 'register.html', {'msg': msg})
 
+        
         if pwd1 != pwd2:
             msg = '密码输入不一致'
             return render(request, 'register.html', {'msg': msg})
@@ -121,6 +123,11 @@ def login(request):
 
             return response
 
+        return HttpResponseRedirect(reverse('user:login'))
+
+
+"""登出"""
+
 
 def logout(request):
     if request.method == 'GET':
@@ -128,3 +135,25 @@ def logout(request):
         response.delete_cookie('ticket')
 
         return response
+
+
+def userper(reqeust):
+
+    # 查询小英有哪些权限
+
+    user = Users.objects.filter(username='小英').first()
+
+    # 通过user对象 查到他的角色, 然后通过角色查到权限
+    # 一对一可以直接使用 user.role 反查到对应的角色
+    per = user.role.r_p.all()
+    role = Role.objects.filter(u_id=user.id).first()
+    # per = Permission.objects.filter(id=role.id)
+    # 判断用户是否有学生列表的权限
+
+    # a = Permission.objects.filter(id=3).first()
+    # if a in per:
+    #     return HttpResponse('有')
+    # else:
+    #     return HttpResponse('没有')
+
+

@@ -1,12 +1,16 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>修改密码</title>
-<link rel="stylesheet" type="text/css" href="css/css.css" />
+﻿{% extends 'base.html' %}
+
+{% block title %}
+    修改密码
+{% endblock %}
+{% block extCSS %}
+    <link rel="stylesheet" type="text/css" href="css/css.css" />
+{% endblock %}
+{% block extJS %}
 <script type="text/javascript" src="js/jquery.min.js"></script>
-</head>
-<body>
+{% endblock %}
+
+{% block indexbody %}
 	<div id="pageAll">
 		<div class="pageTop">
 			<div class="page">
@@ -80,4 +84,4 @@ var pwd = document.getElementById('pwd2').value.trim();
  };
 }
 </script>
-</html>
+{% endblock %}

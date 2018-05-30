@@ -18,5 +18,6 @@ urlpatterns = [
     url(r'head2/', views.head2, name='head2'),
     url(r'^delete/', views.del_student, name='del_student'),
     url(r'^edit_grade/', views.edit_grade, name='edit_grade'),
+    url(r'^select/', views.selectstu),
 
 ]

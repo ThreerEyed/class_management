@@ -16,14 +16,14 @@ class UserAuthMiddle(MiddlewareMixin):
         path = request.path
         s = ['/user/login/', '/user/register/']
         if path in s:
-            return None
+            return
 
         ticket = request.COOKIES.get('ticket')
 
         if not ticket:
             return HttpResponseRedirect(reverse('user:login'))
 
-        user = Users.objects.filter(ticket=ticket)
+        user = Users.objects.filter(ticket=ticket).first()
         if not user:
             return HttpResponseRedirect(reverse('user:login'))
 
