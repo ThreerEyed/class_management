@@ -20,6 +20,9 @@ def is_login(func):
 
             return HttpResponseRedirect(reverse('user:login'))
 
+        # request.user = user
+
         return func(request)
+
 
     return check_login

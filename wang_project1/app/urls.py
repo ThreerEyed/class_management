@@ -1,8 +1,14 @@
 
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
-
+from rest_framework.routers import SimpleRouter
 from app import views
+
+router = SimpleRouter()
+
+router.register(r'^api/student', views.api_student)
+router.register(r'^api/grade', views.ApiGrade)
+
 
 urlpatterns = [
     url(r'^index/', views.index, name='index'),
@@ -21,3 +27,5 @@ urlpatterns = [
     url(r'^select/', views.selectstu),
 
 ]
+
+urlpatterns += router.urls

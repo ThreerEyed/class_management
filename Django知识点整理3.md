@@ -1,14 +1,13 @@
 ---
 title: Django知识点整理3
 date: 2018-05-30 08:49:07
-categories:
-tags:
+categories: Django
+tags: [Django, F(), Q(), 模板继承, 装饰器]
 ---
 
 
 
 ### Django知识点整理3
-
 
 
 
@@ -48,7 +47,6 @@ def is_login(func):
 
 　　__情况1__：通常写页面都有个模板用来框定头部LOGO页面，左侧导航菜单，只有右部的内容不同。如果不使用模板就大量重复工作。
 
-　　　　　　特别如果头部或者左侧导航需要修改或者添加，所有页面都需要修改。django 通过模板继承解决。
 
 　　__情况2__：一个页面如果内容特别多，不可能都一起写同一个页面。比如京东首页内容非常多。django通过include导入其他页面。
 
@@ -148,8 +146,7 @@ def is_login(func):
 ```
 
 
-
-​    **如果子页面有自己的css,js 怎么用了？**
+**如果子页面有自己的css,js 怎么用了？**
 　　如果是在子页面写CSS和JS，CSS就不是在头部了，而JS也不是在<body>之前，假如要引用jquery,子页面写的JS会在jquery引用前面，就会不生效
 
 　　继承CSS与JS都是共有的。
@@ -303,3 +300,71 @@ grade = stu.grade.all().first()
 
 
 ### 用户权限 : 
+
+
+
+当我们通过装饰器或者通过中间件验证用户登录过后,  request  对象中就会有一个user  的属性,  这个user  就是当前登录用户,   我们可以通过user   来查找到关于user  的相关  角色或者说是职位,   然后通过职位查询到相关的权限
+
+其中  这之间涉及到  role   user   permission  role_permission   这四张表
+
+```python
+user(m)   --->   role(n)    一般是多对多的关系,  这里我们设定为一对多的关系
+role   --->   permission    角色对权限是多对多的关系 (多对多我们将其拆分为一对多)
+```
+
+
+
+```python
+from django.db import models
+
+
+class Users(models.Model):
+
+    username = models.CharField(max_length=10)
+    password = models.CharField(max_length=200)
+    ticket = models.CharField(max_length=30)
+    create_time = models.DateTimeField(auto_now_add=True)
+    login_time = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'user'
+
+
+class Permission(models.Model):
+
+    p_name = models.CharField(max_length=10)
+    p_en = models.CharField(max_length=10)
+
+    class Meta:
+
+        db_table = 'permission'
+
+
+class Role(models.Model):
+
+    r_name = models.CharField(max_length=10)
+    u = models.OneToOneField(Users)
+    r_p = models.ManyToManyField(Permission)
+
+    class Meta:
+
+        db_table = 'role'
+```
+
+
+
+通过角色去查询权限的话,  是先查询到user
+
+```django
+user = User.objects.filter(username=‘小英’)
+```
+
+然后因为user和角色是一对一的关系,  在这里 ,
+
+所以
+
+```
+user.role   可以查询到角色对象
+user.role.r_p.all()  可以查询到user对应的相关权限
+```
+

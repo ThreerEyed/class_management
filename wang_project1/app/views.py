@@ -7,8 +7,10 @@ from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.core.urlresolvers import reverse
 
 from app.models import Grade, Student
+from app.serializer import StudentSerializer, GradeSerializer
 from utils.functions import is_login
 from wang_project1.settings import PAGE_NUMBERS
+from rest_framework import mixins, viewsets
 
 
 # def index(request):
@@ -186,3 +188,26 @@ def selectstu(request):
 
     return HttpResponse(a)
 
+
+class api_student(mixins.ListModelMixin,
+                  mixins.CreateModelMixin,
+                  mixins.RetrieveModelMixin,
+                  mixins.DestroyModelMixin,
+                  viewsets.GenericViewSet):
+
+    # 查询学生的所有信息
+    queryset = Student.objects.all()
+
+    # 序列化学生的所有信息
+    serializer_class = StudentSerializer
+
+    def perform_destroy(self, instance):
+        instance.delete = True
+        instance.save()
+
+
+class ApiGrade(mixins.ListModelMixin,
+               viewsets.GenericViewSet):
+    queryset = Grade.objects.all()
+
+    serializer_class = GradeSerializer

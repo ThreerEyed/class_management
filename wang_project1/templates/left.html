@@ -23,8 +23,8 @@
 
 
 			<dl class="system_log">
-                {% for permission in user.role.r_p.all %}
-                {% if permission.p_name == '班级列表' %}
+{#                {% for permission in user.role.r_p.all %}#}
+{#                {% if permission.p_name == '班级列表' %}#}
 				<dt>
 					<img class="icon1" src="/static/img/coin03.png" /><img class="icon2"
 						src="/static/img/coin04.png" /> 班级管理<img class="icon3"
@@ -38,23 +38,23 @@
 						src="/static/img/coin222.png" /><a class="cks" href="{% url 'app:grade' %}"
 						target="main">班级列表</a><img class="icon5" src="/static/img/coin21.png" />
 				</dd>
-                {% endif %}
-            {% endfor %}
+{#                {% endif %}#}
+{#            {% endfor %}#}
 {#                {% if permission.p_name == '班级添加' %}#}
-            {% for permission in user.role.r_p.all %}
-                    {% if permission.p_name == '添加班级' %}
+{#            {% for permission in user.role.r_p.all %}#}
+{#                    {% if permission.p_name == '添加班级' %}#}
 				<dd>
 					<img class="coin11" src="/static/img/coin111.png" /><img class="coin22"
 						src="/static/img/coin222.png" /><a class="cks" href="{% url 'app:addgrade' %}"
 						target="main">班级添加</a><img class="icon5" src="/static/img/coin21.png" />
 				</dd>
-                    {% endif %}
-            {% endfor %}
+{#                    {% endif %}#}
+{#            {% endfor %}#}
 			</dl>
 
 			<dl class="system_log">
-            {% for permission in user.role.r_p.all %}
-                {% if permission.p_name == '学生列表' %}
+{#            {% for permission in user.role.r_p.all %}#}
+{#                {% if permission.p_name == '学生列表' %}#}
 				<dt>
 					<img class="icon1" src="/static/img/coin03.png" /><img class="icon2"
 						src="/static/img/coin04.png" /> 学生管理<img class="icon3"
@@ -68,18 +68,18 @@
 						src="/static/img/coin222.png" /><a class="cks" href="{% url 'app:student' %}"
 						target="main">学生列表</a><img class="icon5" src="/static/img/coin21.png" />
 				</dd>
-                {% endif %}
-            {% endfor %}
+{#                {% endif %}#}
+{#            {% endfor %}#}
 
-                {% for permission in user.role.r_p.all %}
-                    {% ifequal permission.p_en 'STUDENTADD' %}
+{#                {% for permission in user.role.r_p.all %}#}
+{#                    {% ifequal permission.p_en 'STUDENTADD' %}#}
 				<dd>
 					<img class="coin11" src="/static/img/coin111.png" /><img class="coin22"
 						src="/static/img/coin222.png" /><a class="cks" href="{% url 'app:addstu' %}"
 						target="main">添加学生</a><img class="icon5" src="/static/img/coin21.png" />
 				</dd>
-                    {% endifequal %}
-                {% endfor %}
+{#                    {% endifequal %}#}
+{#                {% endfor %}#}
 			</dl>
 
 			<dl class="system_log">

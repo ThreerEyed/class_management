@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app',
     'user',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -140,3 +141,9 @@ PAGE_NUMBERS = 3
 # 没有登录, 跳转地址
 LOGIN_URL = '/user/login/'
 
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 3,
+    'DEFAULT_AUTHENTICATION_CLASSES': ()
+}

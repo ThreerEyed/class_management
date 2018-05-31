@@ -14,7 +14,7 @@ class UserAuthMiddle(MiddlewareMixin):
         # return None 或者不写return
 
         path = request.path
-        s = ['/user/login/', '/user/register/']
+        s = ['/user/login/', '/user/register/', '/app/api/student/']
         if path in s:
             return
 
