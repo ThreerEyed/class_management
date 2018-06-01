@@ -41,9 +41,10 @@
                 for (var i=0 ; i < msg['results'].length; i += 1){
                     var tr_html = ''
                     tr_html += '<tr>'
-                    tr_html += '<td>' + msg['results'][i].g + '</td>'
+                    tr_html += '<td>' + (i+1) + '</td>'
                     tr_html += '<td>' + msg['results'][i].s_name + '</td>'
                     tr_html += '<td>' + msg['results'][i].g_name + '</td>'
+                    tr_html += '<td></td>'
                     tr_html +=
                         '<td><a href="javascript:;" ' +
                         'onclick="delstu('+ msg['results'][i].id +');">删除</a></td>';
@@ -102,7 +103,7 @@
 {#<li><a href="#">5</a></li>#}
 {#<li><a href="#">6</a></li>#}
     {% if pages.has_next %}
-        <li><a href="{% url 'app:student' %}?page_num={{ pages.next_page_number }}">下一页</a></li>
+        <li><a href="/app/api/student/?page={{ pages.next_page_number }}">下一页</a></li>
     {% endif %}
 {#<li><a href="#">下一页</a></li>#}
     <li>当前第{{ pages.number }}页</li>

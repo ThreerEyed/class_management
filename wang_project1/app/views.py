@@ -6,6 +6,7 @@ from django.shortcuts import render, HttpResponseRedirect, redirect
 
 from django.core.urlresolvers import reverse
 
+from app.filters import StudentFilter
 from app.models import Grade, Student
 from app.serializer import StudentSerializer, GradeSerializer
 from utils.functions import is_login
@@ -13,6 +14,16 @@ from wang_project1.settings import PAGE_NUMBERS
 from rest_framework import mixins, viewsets
 
 
+def page_not_found(request):
+    return render(request, '404.html')
+
+
+def page_error(request):
+    return render(request, '500.html')
+
+
+def permission_denied(request):
+    return render(request, '403.html')
 # def index(request):
 #
 #     if request.method == 'GET':
@@ -201,13 +212,40 @@ class api_student(mixins.ListModelMixin,
     # 序列化学生的所有信息
     serializer_class = StudentSerializer
 
+    # 过滤
+    filter_class = StudentFilter
+
+    # 重构得到的对象的返回的方法
+    def get_queryset(self):
+
+        # # 这个query 是 这个查询对象
+        # query = self.queryset
+        #
+        # # 这儿后面的get 是查询的参数, 模糊查询
+        # s_name = self.request.query_params.get('s_name')
+        #
+        # # 这儿将我们查询的结果过滤然后返回
+        # return query.filter(Q(s_name__contains=s_name) & Q(s_chinese__gt=80))
+
+        return self.queryset.order_by('-id')
+
     def perform_destroy(self, instance):
         instance.delete = True
         instance.save()
 
 
 class ApiGrade(mixins.ListModelMixin,
+               mixins.RetrieveModelMixin,
+               mixins.DestroyModelMixin,
+               mixins.CreateModelMixin,
                viewsets.GenericViewSet):
     queryset = Grade.objects.all()
 
     serializer_class = GradeSerializer
+
+
+def editgrade(request):
+
+    if request.method == 'GET':
+
+        return render(request, 'edit_grade.html')

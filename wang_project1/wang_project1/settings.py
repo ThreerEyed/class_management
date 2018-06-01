@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = ')*_gdt7#^uh^z*y5xh%r-rr@)*=!iy0jl)lvnwu+^ncts_gmu2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -143,7 +143,24 @@ LOGIN_URL = '/user/login/'
 
 
 REST_FRAMEWORK = {
+
+    # 配置分页
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 3,
-    'DEFAULT_AUTHENTICATION_CLASSES': ()
+
+    # 配置权限
+    'DEFAULT_AUTHENTICATION_CLASSES': (),
+    # 配置过滤
+    'DEFAULT_FILTER_BACKENDS': (
+        'rest_framework.filters.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+    ),
+    # 'DEFAULT_RENDERER_CLASSES': (
+    #     'utils.functions.CustomJsonRenderer'
+    # ),
 }
+
+LOG_PATH = os.path.join(BASE_DIR, 'log')
+
+if not os.path.isdir(LOG_PATH):
+    os.mkdir(LOG_PATH)

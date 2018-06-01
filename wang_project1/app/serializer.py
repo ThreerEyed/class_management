@@ -20,11 +20,16 @@ class StudentSerializer(serializers.ModelSerializer):
 class GradeSerializer(serializers.ModelSerializer):
 
     class Meta:
+        # 指定模板
         model = Grade
+        # 指定字段
         fields = ['id', 'g_name', 'g_create_time']
 
+    # 序列化
     def to_representation(self, instance):
         data = super().to_representation(instance)
 
         return data
+
+
 

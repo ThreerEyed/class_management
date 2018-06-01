@@ -17,6 +17,8 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.staticfiles.urls import static
 from wang_project1.settings import MEDIA_ROOT, MEDIA_URL
+from app.views import *
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -25,3 +27,7 @@ urlpatterns = [
 ]
 # 指定路径
 urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)
+
+handler403 = permission_denied
+handler404 = page_not_found
+handler500 = page_error

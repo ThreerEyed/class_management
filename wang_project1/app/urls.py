@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^edit_grade/', views.edit_grade, name='edit_grade'),
     url(r'^select/', views.selectstu),
 
+
 ]
 
 urlpatterns += router.urls
